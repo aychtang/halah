@@ -27,7 +27,6 @@ var renderOptions = {
 				.attr("y", function(d) { return height - y(d) - .5; })
 				.attr("width", width)
 				.attr("height", function(d) { return y(d); });
-
 	}
 };
 

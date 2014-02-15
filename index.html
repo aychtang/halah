@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Halah World</title>
+    <style>
+    	html, body, .graph {
+    		width: 100%;
+    		height: 100%;
+    	}
+    	.halfGraphs {
+    		float: left;
+    		width: 50%;
+    		height: 500px;
+    	}
+    </style>
+</head>
+<body>
+    <div class="graph"></div>
+    <div class="halfGraphs"></div>
+    <div class="halfGraphs"></div>
+
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="./recompute.js"></script>
+    <script src="./graph.js"></script>
+    <script>
+
+    	// Some y values.
+    	var getData = function() {
+    		return [100,10,50,23,33,55,95];
+    	};
+
+    	// Define a graph model, with X and Y arrays for now.
+    	var myGraph = new Graph({
+    		x: getData(),
+    		y: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    	});
+
+    	// Define as many views of this model as you wish.
+    	// The graph should automatically fill an empty div.
+    	// Right now the only available rendering option is bar graph, and you
+    	// should pass that as the second argument.
+    	var view = myGraph.init(document.querySelector('.graph'), 'bar');
+    	var secondView = myGraph.init(document.querySelectorAll('.halfGraphs')[0], 'bar');
+    	var thirdView = myGraph.init(document.querySelectorAll('.halfGraphs')[1], 'bar');
+
+    	// It's reactive!
+    	setInterval(function() {
+    		myGraph.set('x', myGraph.x.reverse());
+    	}, 1000);
+
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 
 var renderOptions = {
 	'bar' : function(container) {
-		var currentData = this.graph.get()['x'];
+		var currentData = this.graph.get()['y'];
 		var width = container.offsetWidth / this.graph.x.length;
 		var height = container.offsetHeight;
 
@@ -23,8 +23,8 @@ var renderOptions = {
 
 		this.chartEl.selectAll('rect')
 			.data(currentData)
-				.attr("x", function(d, i) { return x(i) - .5; })
-				.attr("y", function(d) { return height - y(d) - .5; })
+				.attr("x", function(d, i) { return x(i); })
+				.attr("y", function(d) { return height - y(d); })
 				.attr("width", width)
 				.attr("height", function(d) { return y(d); });
 	}

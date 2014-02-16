@@ -4,6 +4,10 @@
   <meta charset="utf-8">
   <title>Halah World</title>
   <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
     html, body, .graph {
       width: 100%;
       height: 100%;
@@ -33,8 +37,8 @@
 
     // Define a graph model, with X and Y arrays for now.
     var myGraph = new Graph({
-      x: getData(),
-      y: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+      x: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      y: getData()
     });
 
     // Define as many views of this model as you wish.
@@ -47,7 +51,7 @@
 
     // It's reactive!
     setInterval(function() {
-      myGraph.set('x', getData());
+      myGraph.set('y', getData());
     }, 1000);
   </script>
 </body>

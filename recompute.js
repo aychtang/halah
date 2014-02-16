@@ -9,9 +9,9 @@ var requireFlush = function() {
 };
 
 var flush = function() {
-	toFlush.forEach(function(fn) {
-		fn.compute();
-	});
+	for (var i = 0; i < toFlush.length; i++) {
+		toFlush[i].compute();
+	}
 	toFlush = [];
 };
 
@@ -42,10 +42,9 @@ Computation.prototype.invalidate = function() {
 		toFlush.push(this);
 	}
 	requireFlush();
-
-	this.onInvalidateCallbacks.forEach(function(fn) {
-		fn();
-	});
+	for (var i = 0; i < this.onInvalidateCallbacks; i++) {
+		this.onInvalidateCallbacks[i]();
+	}
 	this.onInvalidateCallbacks = [];
 };
 
@@ -56,14 +55,12 @@ var Dependency = function() {
 
 // Adds current computation to list of dependants of this dependency.
 Dependency.prototype.depend = function() {
-	var self = this;
-
 	if (computation = currentComputation) {
 		computationId = computation.id;
 		this.dependents[computationId] = computation;
 		computation.onInvalidateCallbacks.push(function() {
 			delete self.dependents[computationId];
-		});
+		}.bind(this));
 	}
 };
 

@@ -1,6 +1,16 @@
 // Halah. WIP.
 // reusable graphs for XY data.
 
+// API amends
+// Set new X or Y by array or index.
+// this.set('x', [1,2,3]);
+// this.set('x', 0, 5); -> [5,2,3];
+// this.setX([]), this.setY(0, 5) - easier? ye.
+
+// Chart types still needed: line, scatter, pie, area.
+
+// Features still needed: axis labelling, better base styles, negative values.
+
 var renderOptions = {
 	'bar' : function(container) {
 		var currentData = this.graph.get()['y'];
@@ -57,9 +67,28 @@ Graph.prototype.init = function(el, type) {
 	return v;
 };
 
-Graph.prototype.set = function(k, v) {
+Graph.prototype._set = function(k, v) {
 	this[k] = v;
 	this.dep.changed();
+};
+
+Graph.prototype._setIndex = function(type, i, v) {
+	this[type][i] = v;
+	this.dep.changed();
+};
+
+Graph.prototype.setX = function(v, o) {
+	if (Array.isArray(v))
+		this._set('x', v);
+	else
+		this._setIndex('x', v, o);
+};
+
+Graph.prototype.setY = function(v, o) {
+	if (Array.isArray(v))
+		this._set('y', v);
+	else
+		this._setIndex('y', v, o);
 };
 
 Graph.prototype.get = function() {

@@ -9,9 +9,9 @@ var requireFlush = function() {
 };
 
 var flush = function() {
-	for (var i = 0; i < toFlush.length; i++) {
-		toFlush[i].compute();
-	}
+	toFlush.forEach(function(fn) {
+		fn.compute();
+	});
 	toFlush = [];
 };
 
@@ -42,9 +42,10 @@ Computation.prototype.invalidate = function() {
 		toFlush.push(this);
 	}
 	requireFlush();
-	for (var i = 0; i < this.onInvalidateCallbacks; i++) {
-		this.onInvalidateCallbacks[i]();
-	}
+
+	this.onInvalidateCallbacks.forEach(function(fn) {
+		fn();
+	});
 	this.onInvalidateCallbacks = [];
 };
 

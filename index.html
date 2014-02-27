@@ -17,6 +17,9 @@
       width: 50%;
       height: 500px;
     }
+    div > svg > rect, div > svg > circle{
+      fill: steelblue;
+    }
   </style>
 </head>
 <body>
@@ -37,7 +40,8 @@
 
     // Define a graph model, with X and Y arrays for now.
     var myGraph = new Graph({
-      x: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      x: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
+      'Sunday'],
       y: getData()
     });
 
@@ -46,12 +50,12 @@
     // Right now the only available rendering option is bar graph, and you
     // should pass that as the second argument.
     var view = myGraph.init(document.querySelector('.graph'), 'bar');
-    var secondView = myGraph.init(document.querySelectorAll('.halfGraphs')[0], 'bar');
-    var thirdView = myGraph.init(document.querySelectorAll('.halfGraphs')[1], 'bar');
+    var view2 = myGraph.init(document.querySelectorAll('.halfGraphs')[0], 'scatter');
+    var view3 = myGraph.init(document.querySelectorAll('.halfGraphs')[1], 'bar');
 
     // It's reactive!
     setInterval(function() {
-      myGraph.set('y', getData());
+      myGraph.setY(getData());
     }, 1000);
   </script>
 </body>

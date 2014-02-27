@@ -37,7 +37,33 @@ var renderOptions = {
 				.attr("y", function(d) { return height - y(d); })
 				.attr("width", width)
 				.attr("height", function(d) { return y(d); });
-	}
+	},
+	'line' : function(container) {},
+	'scatter' : function(container) {
+		var currentData = this.graph.get()['y'];
+		var width = container.offsetWidth / this.graph.x.length;
+		var height = container.offsetHeight;
+
+		var x = d3.scale.linear().domain([0, 1]).range([0, width]);
+		var y = d3.scale.linear().domain([0, d3.max(currentData)]).rangeRound([0, height]);
+
+		this.chartEl = this.chartEl || d3.select(container).append("svg");
+		this.chartEl
+			.attr("width", width * this.graph.x.length - 1)
+			.attr("height", height);
+
+		this.chartEl.selectAll('circle')
+			.data(currentData)
+			.enter().append('circle');
+
+		this.chartEl.selectAll('circle')
+			.data(currentData)
+				.attr("cx", function(d, i) { return x(i); })
+				.attr("cy", function(d) { return height - y(d); })
+				.attr('r', 5)
+				.attr("height", function(d) { return y(d); });
+	},
+	'pie': function(container) {}
 };
 
 var Graph = function(data) {
@@ -78,17 +104,21 @@ Graph.prototype._setIndex = function(type, i, v) {
 };
 
 Graph.prototype.setX = function(v, o) {
-	if (Array.isArray(v))
+	if (Array.isArray(v)) {
 		this._set('x', v);
-	else
+	}
+	else {
 		this._setIndex('x', v, o);
+	}
 };
 
 Graph.prototype.setY = function(v, o) {
-	if (Array.isArray(v))
+	if (Array.isArray(v)) {
 		this._set('y', v);
-	else
+	}
+	else {
 		this._setIndex('y', v, o);
+	}
 };
 
 Graph.prototype.get = function() {

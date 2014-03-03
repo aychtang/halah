@@ -78,3 +78,32 @@ you run init() upon.
 ```js
 var scatterGraphView = graphModel.init(document.querySelector('.scatter'), 'scatter');
 ```
+
+### API Documentation
+
+#### Graph Model
+
+##### Instantiation
+
+```js
+var graphModel = new Graph({
+	x: ['a', 'b'],
+	y: [1, 2]
+});
+```
+
+##### Setting values
+
+```js
+// To set X or Y values, you can pass in new arrays to setX or setY.
+graphModel.setY([1, 10]);
+
+// You can also alter individual indexes, by passing setX/Y(index, value);
+graphModel.setY(0, 5); // => Model Y values are now [5, 10]
+```
+
+##### Getting JSON values
+
+```js
+graphModel.JSON(); // => "{"a": 5, "b": 10}";
+```

@@ -97,12 +97,11 @@ View.prototype._render = function() {
 
 View.prototype._init = function() {
 	autorun(this._render.bind(this));
+	return this;
 };
 
 Graph.prototype.init = function(el, type) {
-	var v = new View(this, el, type);
-	v._init();
-	return v;
+	return new View(this, el, type)._init();
 };
 
 Graph.prototype.JSON = function() {

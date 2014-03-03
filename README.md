@@ -3,6 +3,11 @@ halah
 
 no bullshit reactive XY graph model and views.
 
+## Available graph types
+
+* Bar Graphs - 'bar'
+* Scatter Graphs - 'scatter'
+
 ## Usage
 
 Halah intends to provide the simplest API for visualising XY data.
@@ -28,13 +33,13 @@ Halah will fill with a d3 graph, and what type of graph you want as a string.
 Given the following HTML:
 
 ```html
-	<div class="graph" style="width: 500px; height: 500px"></div>
+<div class="graph" style="width: 500px; height: 500px"></div>
 ```
 
 We could make a 500px square bar graph with the following javascript.
 
 ```js
-	var barGraphView = graphModel.init(document.querySelector('.graph'), 'bar');
+var barGraphView = graphModel.init(document.querySelector('.graph'), 'bar');
 ```
 
 Now we should have a bar graph that shows three different values based on the
@@ -46,7 +51,7 @@ in real time, halah does all that automagically! Just set the new data on the
 graph model, and all dependant views will update.
 
 ```js
-	graphModel.setY([10, 5, 1]);
+graphModel.setY([10, 5, 1]);
 ```
 
 After running setY with a reversed set of the data we had, our bar graph should

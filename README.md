@@ -74,6 +74,7 @@ you run init() upon.
 ```
 ```html
 <div class="scatter" style="width: 100%; height: 500px"></div>
+```
 ```js
 var scatterGraphView = graphModel.init(document.querySelector('.scatter'), 'scatter');
 ```

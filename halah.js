@@ -38,7 +38,9 @@ var renderOptions = {
 				.attr("width", width)
 				.attr("height", function(d) { return y(d); });
 	},
-	'line' : function(container) {},
+	'line' : function(container) {
+
+	},
 	'scatter' : function(container) {
 		var currentData = this.graph.get()['y'];
 		var width = container.offsetWidth / this.graph.x.length;
@@ -63,7 +65,9 @@ var renderOptions = {
 				.attr('r', 5)
 				.attr("height", function(d) { return y(d); });
 	},
-	'pie': function(container) {}
+	'pie': function(container) {
+
+	}
 };
 
 var Graph = function(data) {
@@ -79,18 +83,30 @@ var View = function(graph, el, type) {
 	this.chartEl;
 };
 
-View.prototype.render = function() {
+var _zipObject = function(keys, values) {
+	var result = {};
+	for (var i = 0; i < keys.length; i++) {
+		result[keys[i]] = values[i];
+	}
+	return result;
+};
+
+View.prototype._render = function() {
 	renderOptions[this.type].call(this, this.el);
 };
 
-View.prototype.init = function() {
-	autorun(this.render.bind(this));
+View.prototype._init = function() {
+	autorun(this._render.bind(this));
 };
 
 Graph.prototype.init = function(el, type) {
 	var v = new View(this, el, type);
-	v.init();
+	v._init();
 	return v;
+};
+
+Graph.prototype.JSON = function() {
+	return JSON.stringify(_zipObject(this.x, this.y));
 };
 
 Graph.prototype._set = function(k, v) {

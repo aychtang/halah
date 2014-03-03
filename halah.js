@@ -33,14 +33,16 @@ var renderOptions = {
 
 		this.chartEl.selectAll('rect')
 			.data(currentData)
+			.exit().remove();
+
+		this.chartEl.selectAll('rect')
+			.data(currentData)
 				.attr("x", function(d, i) { return x(i); })
 				.attr("y", function(d) { return height - y(d); })
 				.attr("width", width)
 				.attr("height", function(d) { return y(d); });
 	},
-	'line' : function(container) {
-
-	},
+	'line' : function(container) {},
 	'scatter' : function(container) {
 		var currentData = this.graph.get()['y'];
 		var width = container.offsetWidth / this.graph.x.length;
@@ -60,14 +62,16 @@ var renderOptions = {
 
 		this.chartEl.selectAll('circle')
 			.data(currentData)
+			.exit().remove();
+
+		this.chartEl.selectAll('circle')
+			.data(currentData)
 				.attr("cx", function(d, i) { return x(i); })
 				.attr("cy", function(d) { return height - y(d); })
 				.attr('r', 5)
 				.attr("height", function(d) { return y(d); });
 	},
-	'pie': function(container) {
-
-	}
+	'pie': function(container) {}
 };
 
 var Graph = function(data) {

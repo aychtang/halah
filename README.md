@@ -10,6 +10,8 @@ no bullshit reactive XY graph model and views.
 
 ## Usage
 
+### Introduction
+
 Halah intends to provide the simplest API for visualising XY data.
 
 Start off by creating a model of this XY data. Halah graph models are instantiated
@@ -30,13 +32,13 @@ result to a variable.
 When running the init function, you need to pass an empty DOM element, which
 Halah will fill with a d3 graph, and what type of graph you want as a string.
 
-Given the following HTML:
+We could make a 500px square bar graph, given the following HTML:
 
 ```html
 <div class="graph" style="width: 500px; height: 500px"></div>
 ```
 
-We could make a 500px square bar graph with the following javascript.
+Along with the following javascript:
 
 ```js
 var barGraphView = graphModel.init(document.querySelector('.graph'), 'bar');
@@ -56,3 +58,22 @@ graphModel.setY([10, 5, 1]);
 
 After running setY with a reversed set of the data we had, our bar graph should
 automatically change to show that set of results.
+
+### Multiple graphs of the same model
+
+It's very easy to create multiple graphs on the same model, in the same way we
+did with the first one. Each view is seperate and depends upon the model that
+you run init() upon.
+
+```js
+// Before we had a barGraphView created with:
+// graphModel.init(document.querySelector('.graph'), 'bar');
+
+// We can have as many views of graphModel as we want, lets make a scatter graph.
+// First we need another empty DOM element.
+```
+```html
+<div class="scatter" style="width: 100%; height: 500px"></div>
+```js
+var scatterGraphView = graphModel.init(document.querySelector('.scatter'), 'scatter');
+```

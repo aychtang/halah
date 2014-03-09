@@ -1,24 +1,20 @@
 // Halah. WIP.
-// reusable graphs for XY data.
-
-// API amends
-// Set new X or Y by array or index.
-// this.set('x', [1,2,3]);
-// this.set('x', 0, 5); -> [5,2,3];
-// this.setX([]), this.setY(0, 5) - easier? ye.
-
-// Chart types still needed: line, scatter, pie, area.
-
+// Chart types still needed: line, scatter, pie, area.r
 // Features still needed: axis labelling, better base styles, negative values.
 
 var renderOptions = {
 	'bar' : function(container) {
-		var currentData = this.graph.get()['y'];
+		var currentData = this.graph.get();
+		var yData = currentData['y'];
+
 		var width = container.offsetWidth / this.graph.x.length;
 		var height = container.offsetHeight;
 
 		var x = d3.scale.linear().domain([0, 1]).range([0, width]);
-		var y = d3.scale.linear().domain([0, d3.max(currentData)]).rangeRound([0, height]);
+		var y = d3.scale.linear().domain([0, d3.max(yData)]).rangeRound([0, height]);
+
+		var xScale = d3.scale.ordinal().domain(this.graph.x).rangePoints([0, container.offsetWidth]);
+		var xAxis = d3.svg.axis().scale(xScale);
 
 		// Define chartEl and set size.
 		this.chartEl = this.chartEl || d3.select(container).append("svg");
@@ -26,21 +22,23 @@ var renderOptions = {
 			.attr("width", width * this.graph.x.length - 1)
 			.attr("height", height);
 
-		// Define bars.
+		// // Define bars.
 		this.chartEl.selectAll('rect')
-			.data(currentData)
+			.data(yData)
 			.enter().append('rect');
 
 		this.chartEl.selectAll('rect')
-			.data(currentData)
+			.data(yData)
 			.exit().remove();
 
 		this.chartEl.selectAll('rect')
-			.data(currentData)
+			.data(yData)
 				.attr("x", function(d, i) { return x(i); })
 				.attr("y", function(d) { return height - y(d); })
 				.attr("width", width)
 				.attr("height", function(d) { return y(d); });
+
+		this.axis = this.axis || this.chartEl.append("g").call(xAxis);
 	},
 	'line' : function(container) {},
 	'scatter' : function(container) {
@@ -50,6 +48,9 @@ var renderOptions = {
 
 		var x = d3.scale.linear().domain([0, 1]).range([0, width]);
 		var y = d3.scale.linear().domain([0, d3.max(currentData)]).rangeRound([0, height]);
+
+		var xScale = d3.scale.ordinal().domain(this.graph.x).rangePoints([0, container.offsetWidth]);
+		var xAxis = d3.svg.axis().scale(xScale);
 
 		this.chartEl = this.chartEl || d3.select(container).append("svg");
 		this.chartEl
@@ -66,10 +67,12 @@ var renderOptions = {
 
 		this.chartEl.selectAll('circle')
 			.data(currentData)
-				.attr("cx", function(d, i) { return x(i); })
+				.attr("cx", function(d, i) { return x(i) + width / 2 - 2.5; })
 				.attr("cy", function(d) { return height - y(d); })
 				.attr('r', 5)
 				.attr("height", function(d) { return y(d); });
+
+		this.axis = this.axis || this.chartEl.append("g").call(xAxis);
 	},
 	'pie': function(container) {}
 };

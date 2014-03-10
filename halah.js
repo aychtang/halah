@@ -14,7 +14,7 @@ var renderOptions = {
 		var y = d3.scale.linear().domain([0, d3.max(yData)]).rangeRound([0, height]);
 
 		var xScale = d3.scale.ordinal().domain(this.graph.x).rangePoints([0, container.offsetWidth]);
-		var xAxis = d3.svg.axis().scale(xScale);
+		var xAxis = d3.svg.axis().scale(xScale).orient('top');
 
 		// Define chartEl and set size.
 		this.chartEl = this.chartEl || d3.select(container).append("svg");
@@ -22,7 +22,7 @@ var renderOptions = {
 			.attr("width", width * this.graph.x.length - 1)
 			.attr("height", height);
 
-		// // Define bars.
+		// Define bars.
 		this.chartEl.selectAll('rect')
 			.data(yData)
 			.enter().append('rect');
@@ -38,7 +38,8 @@ var renderOptions = {
 				.attr("width", width)
 				.attr("height", function(d) { return y(d); });
 
-		this.axis = this.axis || this.chartEl.append("g").call(xAxis);
+		this.axis = this.axis || this.chartEl.append("g")
+			.attr('transform', 'translate(0,'+ (height) +')').call(xAxis);
 	},
 	'line' : function(container) {},
 	'scatter' : function(container) {
@@ -50,7 +51,7 @@ var renderOptions = {
 		var y = d3.scale.linear().domain([0, d3.max(currentData)]).rangeRound([0, height]);
 
 		var xScale = d3.scale.ordinal().domain(this.graph.x).rangePoints([0, container.offsetWidth]);
-		var xAxis = d3.svg.axis().scale(xScale);
+		var xAxis = d3.svg.axis().scale(xScale).orient('top');
 
 		this.chartEl = this.chartEl || d3.select(container).append("svg");
 		this.chartEl
@@ -72,9 +73,9 @@ var renderOptions = {
 				.attr('r', 5)
 				.attr("height", function(d) { return y(d); });
 
-		this.axis = this.axis || this.chartEl.append("g").call(xAxis);
-	},
-	'pie': function(container) {}
+		this.axis = this.axis || this.chartEl.append("g")
+			.attr('transform', 'translate(0,'+ (height) +')').call(xAxis);
+	}
 };
 
 var Graph = function(data) {
@@ -87,14 +88,14 @@ var View = function(graph, el, type) {
 	this.el = el;
 	this.graph = graph;
 	this.type = type;
-	this.chartEl;
+	this.chartEl = undefined;
+	this.axis = undefined;
 };
 
 var _zipObject = function(keys, values) {
 	var result = {};
-	for (var i = 0; i < keys.length; i++) {
+	for (var i = 0; i < keys.length; i++)
 		result[keys[i]] = values[i];
-	}
 	return result;
 };
 

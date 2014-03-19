@@ -4,59 +4,97 @@
   <meta charset="utf-8">
   <title>Halah World</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     html, body {
       margin: 0;
       padding: 0;
-    }
-    html, body, .graph {
       width: 100%;
       height: 100%;
     }
-    .halfGraphs {
-      float: left;
-      width: 50%;
+    .main {
+      width: 960px;
+      margin: 80px auto 40px;
+    }
+    .log {
+      margin: 20px 0;
+    }
+    .graph {
       height: 500px;
     }
-    div > svg > rect, div > svg > circle{
+    .halfGraphs {
+      width: 50%;
+      height: 400px;
+    }
+    .right {
+      display: inline-block;
+      float: right;
+    }
+    .left {
+      display: inline-block;
+      float: left;
+    }
+    .halfDescribe {
+      padding: 10px 30px 10px 10px;
+      background: rgb(255, 255, 220);
+      width: 50%;
+      height: 400px;
+    }
+    div > svg > rect, div > svg > circle {
       fill: steelblue;
+    }
+    .axis {
+      shape-rendering: crispEdges;
+    }
+    .x.axis line {
+      stroke: #fff;
+    }
+    .x.axis .minor {
+      stroke-opacity: .5;
+    }
+    .x.axis path {
+      display: none;
+    }
+    .y.axis line, .y.axis path {
+      fill: none;
+      stroke: #000;
     }
   </style>
 </head>
 <body>
-  <div class="graph"></div>
-  <div class="halfGraphs"></div>
-  <div class="halfGraphs"></div>
-
-  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-  <script src="./recompute.js"></script>
-  <script src="./halah.js"></script>
-  <script>
-    // Some y values.
-    var getData = function() {
-      return [0,0,0,0,0,0,0].map(function() {
-        return Math.floor(Math.random() * 100);
-      });
-    };
-
-    // Define a graph model, with X and Y arrays for now.
-    var myGraph = new Graph({
-      x: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
-      'Sunday'],
-      y: getData()
-    });
-
-    // Define as many views of this model as you wish.
-    // The graph should automatically fill an empty div.
-    // Right now the only available rendering option is bar graph, and you
-    // should pass that as the second argument.
-    var view = myGraph.init(document.querySelector('.graph'), 'bar');
-    var view2 = myGraph.init(document.querySelectorAll('.halfGraphs')[0], 'scatter');
-    var view3 = myGraph.init(document.querySelectorAll('.halfGraphs')[1], 'bar');
-
-    // It's reactive!
-    setInterval(function() {
-      myGraph.setY(getData());
-    }, 1000);
-  </script>
+  <section class="main">
+    <h1>Halah world!</h1>
+    <p>
+      Halah helps you create reactive graphs to represent X and Y data. View the
+      uncompiled source code or read the documentation at github.com/cheeseen/halah.
+    </p>
+    <div class="log"></div>
+    <div class="graph"></div>
+    <h2>Mapping arbitrary numbers to days of the week:</h2>
+    <p style="width: 600px">
+      In this example, we are mapping randomly generated X values to the days of
+      the week every second. Notice how halah automagically re-renders all dependant
+      graphs of the model as soon as we use the setX function.
+    </p>
+    <div style="display: inline-block;">
+      <div class="halfGraphs left"></div>
+      <div class="halfDescribe right"><p>
+        Using Halah, you can arbitarily create multiple charts of the same data model.
+        All graphs that depend on a model will be re-rendered on any data change.
+      </p></div>
+      <div class="halfDescribe left">
+        <p>
+          You can easily create different types of chart, currently supported are
+          bar charts and scatter charts.
+        </p>
+      </div>
+      <div class="halfGraphs right"></div>
+    </div>
+    <h2>Graphing computational complexity.</h2>
+  </section>
+  
+  <script src="./d3.min.js" charset="utf-8"></script>
+  <script src="eg.js"></script>
 </body>
 </html>

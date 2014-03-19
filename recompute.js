@@ -1,4 +1,3 @@
-// Examining the deps.js and session module from Meteor.
 var currentComputation = null;
 var nextId = 0;
 var toFlush = [];
@@ -75,3 +74,6 @@ autorun = function(f) {
 	var c = new Computation(f);
 	c.compute();
 };
+
+exports.autorun = autorun;
+exports.Dependency = Dependency;
